@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Elites - Fixed with Real AI Integration</title>
+    <title>AI Elites - Your Intelligent Assistant</title>
     <style>
+        /* General Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        /* Body and Overall Layout */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradient background */
+            height: 100vh; /* Full viewport height */
             display: flex;
             flex-direction: column;
-            color: white;
+            color: white; /* Default text color */
         }
 
+        /* Header Section */
         .header {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            z-index: 10; /* Ensure header is above other content */
         }
 
         .header-left {
@@ -58,20 +62,23 @@
             color: white;
         }
 
+        /* Main Content Area - Chat and Input */
         .main-content {
-            flex: 1;
+            flex: 1; /* Takes up remaining vertical space */
             display: flex;
             flex-direction: column;
             position: relative;
         }
 
+        /* Top Bar within Main Content */
         .top-bar {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            z-index: 5; /* Above chat but below header */
         }
 
         .hamburger {
@@ -94,16 +101,19 @@
             letter-spacing: 2px;
         }
 
+        /* Chat Display Container */
         .chat-container {
-            flex: 1;
+            flex: 1; /* Takes up remaining space for chat messages */
             padding: 20px;
             display: flex;
             flex-direction: column;
             gap: 15px;
-            overflow-y: auto;
+            overflow-y: auto; /* Enable scrolling for chat history */
             position: relative;
+            padding-bottom: 80px; /* Space for input container */
         }
 
+        /* Welcome Section */
         .welcome-section {
             text-align: center;
             margin-top: 50px;
@@ -121,58 +131,65 @@
             display: flex;
             gap: 15px;
             justify-content: center;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
         }
 
         .action-btn {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.15); /* Semi-transparent button */
             border: none;
             padding: 12px 24px;
             border-radius: 25px;
             color: white;
             font-size: 16px;
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            backdrop-filter: blur(10px); /* Frosted glass button effect */
+            transition: all 0.3s ease; /* Smooth transitions for hover effects */
         }
 
         .action-btn:hover {
             background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
+            transform: translateY(-2px); /* Slight lift on hover */
         }
 
+        /* Message Bubbles */
         .message {
-            max-width: 80%;
+            max-width: 80%; /* Limit width of message bubbles */
             padding: 15px 20px;
             border-radius: 20px;
             margin-bottom: 10px;
-            word-wrap: break-word;
+            word-wrap: break-word; /* Wrap long words */
         }
 
         .message.user {
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
-            align-self: flex-end;
-            margin-left: auto;
+            background: rgba(255, 255, 255, 0.9); /* User message background */
+            color: #333; /* Dark text for user message */
+            align-self: flex-end; /* Align user messages to the right */
+            margin-left: auto; /* Push user messages to the right */
         }
 
         .message.ai {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            align-self: flex-start;
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15); /* AI message background */
+            color: white; /* White text for AI message */
+            align-self: flex-start; /* Align AI messages to the left */
+            backdrop-filter: blur(10px); /* Frosted glass effect for AI bubble */
         }
 
+        /* Input Container */
         .input-container {
             padding: 20px;
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            position: sticky; /* Stick to the bottom */
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
         }
 
         .input-wrapper {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent input field */
             border-radius: 25px;
             padding: 12px 20px;
             gap: 15px;
@@ -188,22 +205,22 @@
         }
 
         .message-input {
-            flex: 1;
+            flex: 1; /* Input field takes most of the space */
             background: none;
             border: none;
             color: white;
             font-size: 16px;
-            outline: none;
+            outline: none; /* Remove outline on focus */
         }
 
         .message-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.6); /* Placeholder text color */
         }
 
         .send-btn {
-            background: white;
+            background: white; /* White send button */
             border: none;
-            color: #667eea;
+            color: #667eea; /* Button text color matching gradient */
             padding: 10px 20px;
             border-radius: 20px;
             font-weight: bold;
@@ -213,59 +230,40 @@
 
         .send-btn:hover {
             background: rgba(255, 255, 255, 0.9);
-            transform: scale(1.05);
+            transform: scale(1.05); /* Slight scale on hover */
         }
 
-        .console-section {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            color: #00ff00;
-        }
-
-        .console-title {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            color: white;
-        }
-
-        .version-info {
-            text-align: center;
-            padding: 10px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
+        /* Loading Indicator */
         .loading {
-            display: none;
             text-align: center;
             padding: 20px;
             color: rgba(255, 255, 255, 0.7);
+            /* Spinner animation (example, actual spinner is handled by SVG in JS) */
         }
 
+        /* Error Message Display */
         .error-message {
-            background: rgba(255, 0, 0, 0.2);
+            background: rgba(255, 0, 0, 0.2); /* Red background for errors */
             border: 1px solid rgba(255, 0, 0, 0.5);
-            color: #ff6b6b;
+            color: #ff6b6b; /* Red text for errors */
             padding: 15px;
             border-radius: 10px;
             margin: 10px 0;
         }
 
+        /* Responsive Adjustments */
         @media (max-width: 768px) {
             .message {
-                max-width: 90%;
+                max-width: 90%; /* Wider message bubbles on smaller screens */
             }
             
             .quick-actions {
-                flex-direction: column;
+                flex-direction: column; /* Stack quick actions vertically */
                 align-items: center;
             }
             
             .action-btn {
-                width: 200px;
+                width: 200px; /* Fixed width for quick action buttons */
             }
         }
     </style>
@@ -274,7 +272,7 @@
     <div class="header">
         <div class="header-left">
             <span class="close-btn">×</span>
-            <span class="title">AI Elites - Fixed with Real AI Integration</span>
+            <span class="title">AI Elites - Your Intelligent Assistant</span>
         </div>
         <div class="header-right">
             <span class="share-btn">📤</span>
@@ -311,30 +309,40 @@
         </div>
     </div>
 
-    <div class="console-section">
-        <div class="console-title">📋 Console Messages</div>
-        <div id="consoleOutput">AI Elites Chat Interface Loaded Successfully</div>
-        <div class="version-info">Version 2 of 2</div>
-    </div>
-
+    <!-- The console-section has been removed from the UI as requested -->
+    <!-- You can still view console logs in your browser's developer tools (F12 or Inspect Element) -->
+    
     <script>
-        // Chat state management
-        let chatHistory = [];
-        let isProcessing = false;
+        // --- AI Configuration ---
+        // Your Gemini API Key has been securely placed here.
+        // Get your API key from Google AI Studio: https://ai.google.dev/
+        const GEMINI_API_KEY = "AIzaSyBIFd815--pDu-ChkJhwXY4WYa3nrYOFE8"; 
+        // FIX: Using gemini-2.0-flash with v1beta endpoint for wider compatibility and stability
+        const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'; 
+        const GEMINI_MODEL = 'gemini-2.0-flash'; 
 
-        // DOM elements
+        // --- Chat State Management ---
+        let chatHistory = []; // Stores conversation for context
+        let isProcessing = false; // Prevents multiple requests at once
+
+        // --- DOM Elements ---
         const chatContainer = document.getElementById('chatContainer');
         const messageInput = document.getElementById('messageInput');
         const welcomeSection = document.getElementById('welcomeSection');
-        const consoleOutput = document.getElementById('consoleOutput');
 
-        // Initialize chat
+        // --- Initialization ---
         function initializeChat() {
-            addConsoleMessage("Initializing AI Elites Chat System...");
-            addConsoleMessage("Chat interface ready for user interaction");
+            // No console messages printed to UI console, but internal logs are enabled.
+            console.log("AI Elites Chat System Initialized.");
         }
 
-        // Add message to chat
+        // --- Core Functions ---
+
+        /**
+         * Adds a message bubble to the chat interface.
+         * @param {string} content - The text content of the message.
+         * @param {boolean} isUser - True if the message is from the user, false for AI.
+         */
         function addMessage(content, isUser = false) {
             // Hide welcome section once chat starts
             if (welcomeSection.style.display !== 'none') {
@@ -346,103 +354,26 @@
             messageDiv.textContent = content;
             
             chatContainer.appendChild(messageDiv);
+            // Scroll to the bottom to show the latest message
             chatContainer.scrollTop = chatContainer.scrollHeight;
             
-            // Store in history
+            // Store message in chat history for AI context
             chatHistory.push({
-                content: content,
-                isUser: isUser,
-                timestamp: new Date()
+                role: isUser ? 'user' : 'model',
+                parts: [{ text: content }]
             });
         }
 
-        // Add console message
-        function addConsoleMessage(message) {
-            const timestamp = new Date().toLocaleTimeString();
-            consoleOutput.innerHTML += `<br>[${timestamp}] ${message}`;
-        }
-
-        // Send message function with enhanced error handling
-        async function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message || isProcessing) return;
-
-            // Validate message length
-            if (message.length > 1000) {
-                showError('Message is too long. Please keep it under 1000 characters.');
-                return;
-            }
-
-            // Check if API key is configured
-            if (AI_CONFIG.apiKey === 'YOUR_API_KEY_HERE') {
-                showError('API key not configured. Please add your API key to the AI_CONFIG section.');
-                addConsoleMessage('ERROR: API key not configured in AI_CONFIG');
-                return;
-            }
-
-            // Add user message
-            addMessage(message, true);
-            messageInput.value = '';
-            isProcessing = true;
-
-            // Show loading with timeout
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'loading';
-            loadingDiv.textContent = 'AI is thinking...';
-            loadingDiv.style.display = 'block';
-            chatContainer.appendChild(loadingDiv);
-
-            // Set timeout for API response
-            const timeoutId = setTimeout(() => {
-                if (loadingDiv.parentNode) {
-                    chatContainer.removeChild(loadingDiv);
-                    showError('Request timed out. Please try again.');
-                    isProcessing = false;
-                }
-            }, 30000); // 30 second timeout
-
-            try {
-                addConsoleMessage(`Sending request: "${message.substring(0, 50)}..."`);
-                
-                const response = await generateAIResponse(message);
-                
-                clearTimeout(timeoutId);
-                
-                // Remove loading
-                if (loadingDiv.parentNode) {
-                    chatContainer.removeChild(loadingDiv);
-                }
-                
-                // Validate response
-                if (!response || response.length < 2) {
-                    throw new Error('Invalid response received');
-                }
-                
-                // Add AI response
-                addMessage(response, false);
-                addConsoleMessage(`✓ AI response generated successfully`);
-                
-            } catch (error) {
-                clearTimeout(timeoutId);
-                
-                // Remove loading
-                if (loadingDiv.parentNode) {
-                    chatContainer.removeChild(loadingDiv);
-                }
-                
-                showError(`AI Error: ${error.message}`);
-                addConsoleMessage(`✗ Error: ${error.message}`);
-            }
-
-            isProcessing = false;
-        }
-
-        // Show error function
+        /**
+         * Displays an error message temporarily in the chat.
+         * @param {string} message - The error message to display.
+         */
         function showError(message) {
             const errorDiv = document.createElement('div');
             errorDiv.className = 'error-message';
             errorDiv.textContent = message;
             chatContainer.appendChild(errorDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
             
             // Auto-remove error after 5 seconds
             setTimeout(() => {
@@ -452,156 +383,196 @@
             }, 5000);
         }
 
-        // AI Configuration - ADD YOUR API KEY HERE
-        const AI_CONFIG = {
-            apiKey: 'AIzaSyBIFd815--pDu-ChkJhwXY4WYa3nrYOFE8', // Replace with: AIzaSyBIFd815--pDu-ChkJhwXY4WYa3nrYOFE8
-            apiUrl: 'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent',
-            model: 'gemini-pro'
-        };
+        /**
+         * Sends the user's message to the AI and handles the response.
+         */
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || isProcessing) {
+                // If message is empty or AI is busy, do nothing.
+                console.log("Attempted to send empty or during processing.");
+                return; 
+            }
 
-        // Generate AI response with proper API integration
-        async function generateAIResponse(userMessage) {
+            // --- Input Validations ---
+            if (message.length > 1000) {
+                showError('Message is too long. Please keep it under 1000 characters.');
+                console.warn('User input too long.');
+                return;
+            }
+
+            if (GEMINI_API_KEY === 'YOUR_API_KEY_HERE' || !GEMINI_API_KEY) {
+                showError('AI API key is not configured. Please add your API key in the script section.');
+                console.error('ERROR: API key not configured.');
+                return;
+            }
+
+            // --- User Message Display & State Update ---
+            addMessage(message, true); // Display user's message
+            messageInput.value = ''; // Clear input field
+            isProcessing = true; // Set processing flag
+
+            // --- Loading Indicator ---
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading';
+            loadingDiv.innerHTML = `
+                <svg class="animate-spin h-5 w-5 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                AI is thinking...
+            `;
+            chatContainer.appendChild(loadingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to loading message
+
+            // --- API Call with Timeout ---
+            const timeoutPromise = new Promise((resolve, reject) => {
+                setTimeout(() => reject(new Error("Request timed out after 30 seconds.")), 30000);
+            });
+
             try {
-                // Prevent empty or repetitive messages
-                if (!userMessage || userMessage.length < 2) {
-                    return "I need a bit more information to help you properly. Could you please elaborate?";
-                }
-
-                // Check for recent duplicate messages
-                const recentMessages = chatHistory.slice(-3);
-                const isDuplicate = recentMessages.some(msg => 
-                    msg.isUser && msg.content.toLowerCase() === userMessage.toLowerCase()
-                );
+                console.log(`Sending request to AI for: "${message.substring(0, 50)}..."`);
                 
-                if (isDuplicate) {
-                    return "I notice you've asked this recently. Is there something specific about my previous response you'd like me to clarify or expand on?";
-                }
-
-                // Build conversation context
-                const conversationContext = chatHistory.slice(-6).map(msg => ({
-                    role: msg.isUser ? 'user' : 'model',
-                    parts: [{ text: msg.content }]
-                }));
-
-                // Add current message
-                conversationContext.push({
-                    role: 'user',
-                    parts: [{ text: userMessage }]
-                });
-
-                // Prepare API request
-                const requestBody = {
-                    contents: conversationContext,
-                    generationConfig: {
-                        temperature: 0.7,
-                        maxOutputTokens: 1000,
-                        topP: 0.8,
-                        topK: 40
-                    },
-                    safetySettings: [
-                        {
-                            category: "HARM_CATEGORY_HARASSMENT",
-                            threshold: "BLOCK_MEDIUM_AND_ABOVE"
-                        },
-                        {
-                            category: "HARM_CATEGORY_HATE_SPEECH", 
-                            threshold: "BLOCK_MEDIUM_AND_ABOVE"
-                        }
-                    ]
-                };
-
-                // Make API call
-                const response = await fetch(`${AI_CONFIG.apiUrl}?key=${AI_CONFIG.apiKey}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(requestBody)
-                });
-
-                if (!response.ok) {
-                    throw new Error(`API Error: ${response.status} - ${response.statusText}`);
-                }
-
-                const data = await response.json();
+                // Use Promise.race to handle timeout
+                const apiResponsePromise = generateAIResponse(message);
+                const response = await Promise.race([apiResponsePromise, timeoutPromise]);
                 
-                // Extract response text
-                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-                    const aiResponse = data.candidates[0].content.parts[0].text;
-                    
-                    // Validate response to prevent loops
-                    if (aiResponse && aiResponse.length > 10 && !aiResponse.includes('I understand your question about')) {
-                        return aiResponse;
-                    } else {
-                        return "I'm having trouble generating a proper response. Could you rephrase your question?";
-                    }
-                } else {
-                    throw new Error('Invalid response format from API');
+                // Remove loading indicator
+                if (loadingDiv.parentNode) {
+                    chatContainer.removeChild(loadingDiv);
                 }
-
+                
+                // Add AI response to chat
+                addMessage(response, false);
+                console.log(`✓ AI response generated successfully.`);
+                
             } catch (error) {
-                addConsoleMessage(`API Error: ${error.message}`);
-                
-                // Fallback responses to prevent complete failure
-                const fallbackResponses = {
-                    'hello': "Hello! I'm AI Elites. How can I assist you today?",
-                    'biology': "Yes, I can help with biology questions! What specific topic interests you?",
-                    'help': "I'm here to help! What would you like to know about?",
-                    'default': "I apologize, but I'm experiencing some technical difficulties. Please try rephrasing your question."
-                };
-
-                const lowerMessage = userMessage.toLowerCase();
-                
-                if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-                    return fallbackResponses.hello;
-                } else if (lowerMessage.includes('biology')) {
-                    return fallbackResponses.biology;
-                } else if (lowerMessage.includes('help')) {
-                    return fallbackResponses.help;
-                } else {
-                    return fallbackResponses.default;
+                // Remove loading indicator on error
+                if (loadingDiv.parentNode) {
+                    chatContainer.removeChild(loadingDiv);
                 }
+                
+                showError(`AI Error: ${error.message}`);
+                console.error(`✗ Error during AI response: ${error.message}`);
+            } finally {
+                isProcessing = false; // Reset processing flag
+                console.log('AI response process finished.');
             }
         }
 
-        // Handle Enter key press
+        /**
+         * Makes the actual API call to the Gemini model.
+         * @param {string} userMessage - The current message from the user.
+         * @returns {Promise<string>} The AI's generated text response.
+         */
+        async function generateAIResponse(userMessage) {
+            // Build conversation context from chatHistory (last N turns)
+            // Slicing to send only the last few turns to manage context window and cost.
+            // Using a max of 10 turns for context (5 user + 5 model responses)
+            const conversationContext = chatHistory.slice(-10);
+
+            // Add the current user message to the context for the API call
+            // The last message in chatHistory is already the user's current message,
+            // so we send chatHistory as is after slicing.
+
+            const requestBody = {
+                contents: conversationContext,
+                generationConfig: {
+                    temperature: 0.7, // Creativity level
+                    maxOutputTokens: 1000, // Max length of AI response
+                    topP: 0.8,
+                    topK: 40
+                },
+                safetySettings: [ // Safety filters
+                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
+                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
+                ]
+            };
+
+            const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("API Error Response Data:", errorData);
+                let errorMessage = `API request failed: ${response.status} ${response.statusText}.`;
+                if (errorData && errorData.error && errorData.error.message) {
+                    errorMessage += ` Details: ${errorData.error.message}`;
+                }
+                throw new Error(errorMessage);
+            }
+
+            const data = await response.json();
+            console.log("API Raw Response:", data);
+            
+            // Extract and validate AI response
+            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                if (aiResponse && aiResponse.length > 0) {
+                    return aiResponse;
+                } else {
+                    throw new Error('AI generated an empty or invalid response.');
+                }
+            } else if (data.promptFeedback && data.promptFeedback.safetyRatings) {
+                 // Handle blocked content (safety filter)
+                 const blockedCategories = data.promptFeedback.safetyRatings
+                    .filter(rating => rating.blocked)
+                    .map(rating => rating.category.replace('HARM_CATEGORY_', '').replace(/_/g, ' '));
+                if (blockedCategories.length > 0) {
+                    return `I'm unable to respond to that request due to safety concerns related to: ${blockedCategories.join(', ')}. Please try a different approach.`;
+                }
+                throw new Error('AI response format is unexpected or was blocked by safety filters without clear message.');
+            } else {
+                throw new Error('Unexpected API response format or no candidates received.');
+            }
+        }
+
+        // --- Event Handlers ---
+        // Handle Enter key press in the input field
         function handleKeyPress(event) {
             if (event.key === 'Enter') {
                 sendMessage();
             }
         }
 
-        // Quick action functions
+        // --- Quick Action Buttons ---
         function startImageGeneration() {
             addMessage("I'd like to generate an image", true);
             setTimeout(() => {
-                addMessage("I can help you create images! Please describe what you'd like me to generate, and I'll create it for you.", false);
+                addMessage("I can help you create images! What kind of image are you looking for? Describe it to me, and I'll give you a detailed prompt idea.", false);
             }, 1000);
         }
 
         function askLifeTips() {
             addMessage("Give me some life tips", true);
             setTimeout(() => {
-                addMessage("Here are some valuable life tips: 1) Stay curious and keep learning, 2) Practice gratitude daily, 3) Take care of your physical and mental health, 4) Build meaningful relationships, 5) Embrace challenges as growth opportunities. What specific area would you like more advice on?", false);
+                addMessage("Here are some valuable life tips: \n1) Stay curious and keep learning. \n2) Practice gratitude daily. \n3) Take care of your physical and mental health. \n4) Build meaningful relationships. \n5) Embrace challenges as growth opportunities. \n\nWhat specific area would you like more advice on?", false);
             }, 1500);
         }
 
-        // Attach file function
+        // --- Attach File Functionality ---
         function attachFile() {
             const input = document.createElement('input');
             input.type = 'file';
-            input.accept = '*/*';
+            input.accept = '*/*'; // Accept all file types
             input.onchange = function(event) {
                 const file = event.target.files[0];
                 if (file) {
-                    addMessage(`📎 Attached file: ${file.name}`, true);
-                    addConsoleMessage(`File attached: ${file.name} (${file.size} bytes)`);
+                    addMessage(`📎 Attached file: ${file.name} (File attachment is for demonstration. This chat currently only processes text.)`, true);
+                    console.log(`File attached: ${file.name} (${file.size} bytes)`);
                 }
             };
-            input.click();
+            input.click(); // Programmatically click the hidden file input
         }
 
-        // Initialize on page load
+        // --- Initialize Chat on Page Load ---
         window.addEventListener('load', initializeChat);
     </script>
 </body>
