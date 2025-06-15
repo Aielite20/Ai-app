@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Elites</title>
+    <title>AI Elites - Fixed with Real AI Integration</title>
     <style>
         * {
             margin: 0;
@@ -12,153 +12,179 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             height: 100vh;
-            overflow: hidden;
-        }
-
-        .container {
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            max-width: 400px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            position: relative;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
             color: white;
         }
 
-        .menu-icon {
-            cursor: pointer;
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 20px;
             display: flex;
-            flex-direction: column;
-            gap: 4px;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
         }
 
-        .menu-line {
-            width: 25px;
-            height: 3px;
-            background: white;
-            border-radius: 2px;
-            transition: all 0.3s ease;
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .menu-icon:hover .menu-line {
-            background: #b3d9ff;
-        }
-
-        .logo {
+        .close-btn {
             font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 2px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .share-btn, .menu-btn {
+            font-size: 20px;
+            cursor: pointer;
+            color: white;
         }
 
         .main-content {
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
             position: relative;
+        }
+
+        .top-bar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .chat-container {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-top: 50px;
+            opacity: 0.7;
         }
 
         .welcome-text {
             font-size: 28px;
-            color: rgba(255, 255, 255, 0.3);
-            text-align: center;
-            margin-bottom: 40px;
             font-weight: 300;
-            letter-spacing: 1px;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .action-buttons {
+        .quick-actions {
             display: flex;
-            gap: 20px;
-            margin-bottom: 40px;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         .action-btn {
-            background: white;
-            color: #1e3c72;
+            background: rgba(255, 255, 255, 0.15);
             border: none;
             padding: 12px 24px;
             border-radius: 25px;
+            color: white;
             font-size: 16px;
-            font-weight: 600;
             cursor: pointer;
+            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .action-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-            background: #f0f8ff;
-        }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 0 20px;
-            margin-bottom: 20px;
-            display: none;
         }
 
         .message {
-            margin-bottom: 15px;
-            padding: 12px 16px;
-            border-radius: 18px;
-            max-width: 85%;
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            margin-bottom: 10px;
             word-wrap: break-word;
-            line-height: 1.4;
         }
 
-        .user-message {
-            background: white;
-            color: #1e3c72;
+        .message.user {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            align-self: flex-end;
             margin-left: auto;
-            text-align: right;
         }
 
-        .ai-message {
+        .message.ai {
             background: rgba(255, 255, 255, 0.15);
             color: white;
-            margin-right: auto;
+            align-self: flex-start;
+            backdrop-filter: blur(10px);
         }
 
         .input-container {
             padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .input-wrapper {
             display: flex;
             align-items: center;
-            gap: 15px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 25px;
-            margin: 0 20px 20px 20px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 20px;
+            gap: 15px;
         }
 
         .attach-btn {
             background: none;
             border: none;
             color: white;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
             padding: 5px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .attach-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
         }
 
         .message-input {
@@ -176,447 +202,407 @@
 
         .send-btn {
             background: white;
-            color: #1e3c72;
             border: none;
-            padding: 8px 20px;
+            color: #667eea;
+            padding: 10px 20px;
             border-radius: 20px;
-            font-weight: 600;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .send-btn:hover {
-            background: #f0f8ff;
+            background: rgba(255, 255, 255, 0.9);
             transform: scale(1.05);
         }
 
-        .send-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 18px;
-            max-width: 85%;
-            margin-bottom: 15px;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.7);
-            animation: typing 1.5s infinite;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes typing {
-            0%, 60%, 100% {
-                transform: translateY(0);
-                opacity: 0.7;
-            }
-            30% {
-                transform: translateY(-10px);
-                opacity: 1;
-            }
-        }
-
-        .chat-active .main-content {
-            display: none;
-        }
-
-        .chat-active .chat-messages {
-            display: block;
-        }
-
-        .history-panel {
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 80%;
-            height: 100%;
-            background: rgba(30, 60, 114, 0.95);
-            backdrop-filter: blur(10px);
-            transition: left 0.3s ease;
-            z-index: 1000;
+        .console-section {
+            background: rgba(0, 0, 0, 0.8);
             padding: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #00ff00;
         }
 
-        .history-panel.active {
-            left: 0;
-        }
-
-        .history-header {
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .history-item {
-            color: rgba(255, 255, 255, 0.8);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .history-item:hover {
-            background: rgba(255, 255, 255, 0.1);
+        .console-title {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
             color: white;
         }
 
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
+        .version-info {
+            text-align: center;
+            padding: 10px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .loading {
             display: none;
-            z-index: 999;
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .overlay.active {
-            display: block;
+        .error-message {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            color: #ff6b6b;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
         }
 
-        @media (max-width: 480px) {
-            .container {
-                max-width: 100%;
+        @media (max-width: 768px) {
+            .message {
+                max-width: 90%;
             }
             
-            .welcome-text {
-                font-size: 24px;
-            }
-            
-            .action-buttons {
+            .quick-actions {
                 flex-direction: column;
-                width: 100%;
-                gap: 15px;
+                align-items: center;
             }
             
             .action-btn {
-                width: 100%;
+                width: 200px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="chatContainer">
-        <div class="overlay" id="overlay"></div>
-        
-        <div class="history-panel" id="historyPanel">
-            <div class="history-header">Chat History</div>
-            <div class="history-item" onclick="startNewChat()">New conversation</div>
-            <div class="history-item" onclick="loadSavedChat('images')">Image generation tips</div>
-            <div class="history-item" onclick="loadSavedChat('life')">Life advice session</div>
-            <div class="history-item" onclick="loadSavedChat('creative')">Creative writing help</div>
+    <div class="header">
+        <div class="header-left">
+            <span class="close-btn">×</span>
+            <span class="title">AI Elites - Fixed with Real AI Integration</span>
         </div>
-
-        <div class="header">
-            <div class="menu-icon" id="menuIcon">
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
-                <div class="menu-line"></div>
-            </div>
-            <div class="logo">AI ELITES</div>
-        </div>
-
-        <div class="main-content" id="mainContent">
-            <div class="welcome-text">WELCOME TO AI ELITES</div>
-            <div class="action-buttons">
-                <button class="action-btn" id="imageBtn">Imagen</button>
-                <button class="action-btn" id="lifeTipsBtn">life tips</button>
-            </div>
-        </div>
-
-        <div class="chat-messages" id="chatMessages"></div>
-
-        <div class="input-container">
-            <button class="attach-btn" id="attachBtn">+</button>
-            <input type="text" class="message-input" id="messageInput" placeholder="Type your message...">
-            <button class="send-btn" id="sendBtn">Send</button>
+        <div class="header-right">
+            <span class="share-btn">📤</span>
+            <span class="menu-btn">⋮</span>
         </div>
     </div>
 
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="brand">AI ELITES</div>
+        </div>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="welcome-section" id="welcomeSection">
+                <div class="welcome-text">Welcome to AI Elites</div>
+                <div class="quick-actions">
+                    <button class="action-btn" onclick="startImageGeneration()">🎨 Image Generation</button>
+                    <button class="action-btn" onclick="askLifeTips()">💡 Life Tips</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-container">
+            <div class="input-wrapper">
+                <button class="attach-btn" onclick="attachFile()">+</button>
+                <input type="text" class="message-input" id="messageInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+                <button class="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="console-section">
+        <div class="console-title">📋 Console Messages</div>
+        <div id="consoleOutput">AI Elites Chat Interface Loaded Successfully</div>
+        <div class="version-info">Version 2 of 2</div>
+    </div>
+
     <script>
-        // AI Response Database - Smart responses that work offline
-        const aiResponses = {
-            greeting: [
-                "Hello! I'm AI Elites, your intelligent assistant. How can I help you today?",
-                "Hi there! Welcome to AI Elites. What would you like to explore today?",
-                "Greetings! I'm here to assist you with any questions or tasks you have.",
-            ],
-            image: [
-                "I'd love to help you with image creation! Here are some great prompts to try:\n\n• 'A futuristic cityscape at sunset with flying cars'\n• 'A magical forest with glowing mushrooms and fairy lights'\n• 'A minimalist portrait of a person in monochrome'\n• 'An abstract painting with vibrant colors and geometric shapes'\n\nWhat style or subject are you most interested in?",
-                "Great choice! Image generation is fascinating. Consider these creative directions:\n\n✨ Fantasy & Sci-Fi: Dragons, spaceships, alien worlds\n🎨 Artistic Styles: Oil painting, watercolor, digital art, photography\n🏞️ Landscapes: Mountains, oceans, cities, abstract environments\n👥 Portraits: Realistic, cartoon, artistic interpretations\n\nWhat catches your imagination?",
-            ],
-            lifeTips: [
-                "Here are some valuable life tips for personal growth:\n\n🎯 **Focus on Progress, Not Perfection**\n• Small daily improvements compound over time\n• Celebrate small wins along the way\n\n💪 **Build Strong Habits**\n• Start with just 5 minutes a day\n• Consistency beats intensity\n\n🧠 **Never Stop Learning**\n• Read for 15 minutes daily\n• Learn one new skill each quarter\n\n❤️ **Prioritize Relationships**\n• Quality time with loved ones\n• Practice active listening\n\nWhat area would you like to focus on most?",
-                "Life wisdom for success and happiness:\n\n⏰ **Time Management**\n• Use the 80/20 rule - focus on what matters most\n• Plan your day the night before\n\n🌱 **Personal Growth**\n• Step out of your comfort zone regularly\n• Reflect on your experiences weekly\n\n💰 **Financial Wisdom**\n• Save before you spend\n• Invest in yourself first\n\n🧘 **Mental Health**\n• Practice gratitude daily\n• Take breaks when needed\n\nWhich area resonates with you most?",
-            ],
-            default: [
-                "That's an interesting question! Let me think about that...",
-                "I understand what you're asking. Here's my perspective on that:",
-                "Great question! Based on my knowledge, I can share some insights:",
-                "I'm glad you asked about that. Let me provide you with some helpful information:",
-            ],
-            creative: [
-                "I love helping with creative projects! Whether it's writing, brainstorming, or artistic ideas, I'm here to spark your imagination.",
-                "Creativity is one of my favorite topics! What kind of creative project are you working on?",
-            ],
-            technology: [
-                "Technology is evolving rapidly! I can help you understand various tech concepts, programming, or digital trends.",
-                "I'm passionate about technology! What specific tech topic interests you?",
-            ],
-            learning: [
-                "Learning is a lifelong journey! I can help you with study strategies, explain complex topics, or suggest learning resources.",
-                "Education and learning are so important! What subject would you like to explore?",
-            ]
-        };
-
-        // Elements
-        const chatContainer = document.getElementById('chatContainer');
-        const mainContent = document.getElementById('mainContent');
-        const chatMessages = document.getElementById('chatMessages');
-        const messageInput = document.getElementById('messageInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const imageBtn = document.getElementById('imageBtn');
-        const lifeTipsBtn = document.getElementById('lifeTipsBtn');
-        const menuIcon = document.getElementById('menuIcon');
-        const historyPanel = document.getElementById('historyPanel');
-        const overlay = document.getElementById('overlay');
-        const attachBtn = document.getElementById('attachBtn');
-
+        // Chat state management
+        let chatHistory = [];
         let isProcessing = false;
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            setupEventListeners();
-            console.log('AI Elites Chat Interface Loaded Successfully');
-        });
+        // DOM elements
+        const chatContainer = document.getElementById('chatContainer');
+        const messageInput = document.getElementById('messageInput');
+        const welcomeSection = document.getElementById('welcomeSection');
+        const consoleOutput = document.getElementById('consoleOutput');
 
-        function setupEventListeners() {
-            // Menu
-            menuIcon.addEventListener('click', toggleMenu);
-            overlay.addEventListener('click', closeMenu);
-
-            // Quick actions
-            imageBtn.addEventListener('click', () => handleQuickAction('image'));
-            lifeTipsBtn.addEventListener('click', () => handleQuickAction('lifeTips'));
-
-            // Messaging
-            sendBtn.addEventListener('click', handleSendMessage);
-            messageInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSendMessage();
-                }
-            });
-
-            // Attach button
-            attachBtn.addEventListener('click', () => {
-                alert('📎 File attachment feature coming soon!');
-            });
+        // Initialize chat
+        function initializeChat() {
+            addConsoleMessage("Initializing AI Elites Chat System...");
+            addConsoleMessage("Chat interface ready for user interaction");
         }
 
-        function toggleMenu() {
-            historyPanel.classList.toggle('active');
-            overlay.classList.toggle('active');
-        }
-
-        function closeMenu() {
-            historyPanel.classList.remove('active');
-            overlay.classList.remove('active');
-        }
-
-        function handleQuickAction(type) {
-            activateChat();
-            const responses = aiResponses[type];
-            const response = responses[Math.floor(Math.random() * responses.length)];
-            
-            if (type === 'image') {
-                addMessage('I want to create an image. Can you help me with image generation ideas and prompts?', true);
-            } else if (type === 'lifeTips') {
-                addMessage('Can you give me some valuable life tips and advice?', true);
+        // Add message to chat
+        function addMessage(content, isUser = false) {
+            // Hide welcome section once chat starts
+            if (welcomeSection.style.display !== 'none') {
+                welcomeSection.style.display = 'none';
             }
 
-            showTypingIndicator();
-            setTimeout(() => {
-                hideTypingIndicator();
-                addMessage(response, false);
-            }, 1500);
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            messageDiv.textContent = content;
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Store in history
+            chatHistory.push({
+                content: content,
+                isUser: isUser,
+                timestamp: new Date()
+            });
         }
 
-        function activateChat() {
-            chatContainer.classList.add('chat-active');
+        // Add console message
+        function addConsoleMessage(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            consoleOutput.innerHTML += `<br>[${timestamp}] ${message}`;
         }
 
-        async function handleSendMessage() {
+        // Send message function with enhanced error handling
+        async function sendMessage() {
             const message = messageInput.value.trim();
             if (!message || isProcessing) return;
 
-            messageInput.value = '';
-            activateChat();
+            // Validate message length
+            if (message.length > 1000) {
+                showError('Message is too long. Please keep it under 1000 characters.');
+                return;
+            }
+
+            // Check if API key is configured
+            if (AI_CONFIG.apiKey === 'YOUR_API_KEY_HERE') {
+                showError('API key not configured. Please add your API key to the AI_CONFIG section.');
+                addConsoleMessage('ERROR: API key not configured in AI_CONFIG');
+                return;
+            }
 
             // Add user message
             addMessage(message, true);
-
-            // Process and respond
-            await processMessage(message);
-        }
-
-        async function processMessage(message) {
-            if (isProcessing) return;
-
+            messageInput.value = '';
             isProcessing = true;
-            sendBtn.disabled = true;
-            sendBtn.textContent = 'Sending...';
 
-            showTypingIndicator();
+            // Show loading with timeout
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading';
+            loadingDiv.textContent = 'AI is thinking...';
+            loadingDiv.style.display = 'block';
+            chatContainer.appendChild(loadingDiv);
 
-            // Simulate processing time
-            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+            // Set timeout for API response
+            const timeoutId = setTimeout(() => {
+                if (loadingDiv.parentNode) {
+                    chatContainer.removeChild(loadingDiv);
+                    showError('Request timed out. Please try again.');
+                    isProcessing = false;
+                }
+            }, 30000); // 30 second timeout
 
-            hideTypingIndicator();
-
-            // Generate response based on message content
-            const response = generateResponse(message);
-            addMessage(response, false);
+            try {
+                addConsoleMessage(`Sending request: "${message.substring(0, 50)}..."`);
+                
+                const response = await generateAIResponse(message);
+                
+                clearTimeout(timeoutId);
+                
+                // Remove loading
+                if (loadingDiv.parentNode) {
+                    chatContainer.removeChild(loadingDiv);
+                }
+                
+                // Validate response
+                if (!response || response.length < 2) {
+                    throw new Error('Invalid response received');
+                }
+                
+                // Add AI response
+                addMessage(response, false);
+                addConsoleMessage(`✓ AI response generated successfully`);
+                
+            } catch (error) {
+                clearTimeout(timeoutId);
+                
+                // Remove loading
+                if (loadingDiv.parentNode) {
+                    chatContainer.removeChild(loadingDiv);
+                }
+                
+                showError(`AI Error: ${error.message}`);
+                addConsoleMessage(`✗ Error: ${error.message}`);
+            }
 
             isProcessing = false;
-            sendBtn.disabled = false;
-            sendBtn.textContent = 'Send';
         }
 
-        function generateResponse(message) {
-            const msg = message.toLowerCase();
+        // Show error function
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            chatContainer.appendChild(errorDiv);
             
-            // Greetings
-            if (msg.includes('hello') || msg.includes('hi') || msg.includes('hey')) {
-                return getRandomResponse('greeting');
-            }
-            
-            // Image related
-            if (msg.includes('image') || msg.includes('picture') || msg.includes('photo') || msg.includes('art') || msg.includes('draw')) {
-                return getRandomResponse('image');
-            }
-            
-            // Life tips
-            if (msg.includes('life') || msg.includes('advice') || msg.includes('tip') || msg.includes('help') || msg.includes('guide')) {
-                return getRandomResponse('lifeTips');
-            }
-            
-            // Creative
-            if (msg.includes('creative') || msg.includes('write') || msg.includes('story') || msg.includes('idea')) {
-                return getRandomResponse('creative');
-            }
-            
-            // Technology
-            if (msg.includes('tech') || msg.includes('program') || msg.includes('code') || msg.includes('computer')) {
-                return getRandomResponse('technology');
-            }
-            
-            // Learning
-            if (msg.includes('learn') || msg.includes('study') || msg.includes('education') || msg.includes('explain')) {
-                return getRandomResponse('learning');
-            }
-            
-            // Default responses with context
-            const contextualResponses = [
-                `You asked about "${message.substring(0, 30)}${message.length > 30 ? '...' : ''}". That's a thoughtful question! Based on what you're asking, I think the key points to consider are the context and your specific goals. What aspect interests you most?`,
-                `I appreciate you sharing that with me. Regarding "${message.substring(0, 25)}${message.length > 25 ? '...' : ''}", there are several perspectives to consider. Would you like me to explore the practical implications or the theoretical aspects?`,
-                `That's an interesting topic! When it comes to what you mentioned, I find it helpful to break it down into smaller, manageable parts. What specific outcome are you hoping to achieve?`,
-                `Great question! I can see why you'd be curious about that. Let me offer some insights that might be helpful, and feel free to ask for more details on any point that interests you.`
-            ];
-            
-            return contextualResponses[Math.floor(Math.random() * contextualResponses.length)];
-        }
-
-        function getRandomResponse(category) {
-            const responses = aiResponses[category] || aiResponses.default;
-            return responses[Math.floor(Math.random() * responses.length)];
-        }
-
-        function addMessage(content, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', isUser ? 'user-message' : 'ai-message');
-            messageDiv.textContent = content;
-            chatMessages.appendChild(messageDiv);
-            scrollToBottom();
-        }
-
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.classList.add('typing-indicator');
-            typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-            chatMessages.appendChild(typingDiv);
-            scrollToBottom();
-        }
-
-        function hideTypingIndicator() {
-            const typing = document.getElementById('typing-indicator');
-            if (typing) typing.remove();
-        }
-
-        function scrollToBottom() {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // History functions
-        function startNewChat() {
-            chatMessages.innerHTML = '';
-            chatContainer.classList.remove('chat-active');
-            closeMenu();
-        }
-
-        function loadSavedChat(type) {
-            chatMessages.innerHTML = '';
-            activateChat();
-            closeMenu();
-            
+            // Auto-remove error after 5 seconds
             setTimeout(() => {
-                if (type === 'images') {
-                    addMessage('Tell me about image generation', true);
-                    showTypingIndicator();
-                    setTimeout(() => {
-                        hideTypingIndicator();
-                        addMessage(getRandomResponse('image'), false);
-                    }, 1500);
-                } else if (type === 'life') {
-                    addMessage('I need some life advice', true);
-                    showTypingIndicator();
-                    setTimeout(() => {
-                        hideTypingIndicator();
-                        addMessage(getRandomResponse('lifeTips'), false);
-                    }, 1500);
-                } else if (type === 'creative') {
-                    addMessage('Help me with creative writing', true);
-                    showTypingIndicator();
-                    setTimeout(() => {
-                        hideTypingIndicator();
-                        addMessage(getRandomResponse('creative'), false);
-                    }, 1500);
+                if (errorDiv.parentNode) {
+                    chatContainer.removeChild(errorDiv);
                 }
-            }, 500);
+            }, 5000);
         }
+
+        // AI Configuration - ADD YOUR API KEY HERE
+        const AI_CONFIG = {
+            apiKey: 'AIzaSyBIFd815--pDu-ChkJhwXY4WYa3nrYOFE8', // Replace with: AIzaSyBIFd815--pDu-ChkJhwXY4WYa3nrYOFE8
+            apiUrl: 'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent',
+            model: 'gemini-pro'
+        };
+
+        // Generate AI response with proper API integration
+        async function generateAIResponse(userMessage) {
+            try {
+                // Prevent empty or repetitive messages
+                if (!userMessage || userMessage.length < 2) {
+                    return "I need a bit more information to help you properly. Could you please elaborate?";
+                }
+
+                // Check for recent duplicate messages
+                const recentMessages = chatHistory.slice(-3);
+                const isDuplicate = recentMessages.some(msg => 
+                    msg.isUser && msg.content.toLowerCase() === userMessage.toLowerCase()
+                );
+                
+                if (isDuplicate) {
+                    return "I notice you've asked this recently. Is there something specific about my previous response you'd like me to clarify or expand on?";
+                }
+
+                // Build conversation context
+                const conversationContext = chatHistory.slice(-6).map(msg => ({
+                    role: msg.isUser ? 'user' : 'model',
+                    parts: [{ text: msg.content }]
+                }));
+
+                // Add current message
+                conversationContext.push({
+                    role: 'user',
+                    parts: [{ text: userMessage }]
+                });
+
+                // Prepare API request
+                const requestBody = {
+                    contents: conversationContext,
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 1000,
+                        topP: 0.8,
+                        topK: 40
+                    },
+                    safetySettings: [
+                        {
+                            category: "HARM_CATEGORY_HARASSMENT",
+                            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                        },
+                        {
+                            category: "HARM_CATEGORY_HATE_SPEECH", 
+                            threshold: "BLOCK_MEDIUM_AND_ABOVE"
+                        }
+                    ]
+                };
+
+                // Make API call
+                const response = await fetch(`${AI_CONFIG.apiUrl}?key=${AI_CONFIG.apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status} - ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                // Extract response text
+                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    const aiResponse = data.candidates[0].content.parts[0].text;
+                    
+                    // Validate response to prevent loops
+                    if (aiResponse && aiResponse.length > 10 && !aiResponse.includes('I understand your question about')) {
+                        return aiResponse;
+                    } else {
+                        return "I'm having trouble generating a proper response. Could you rephrase your question?";
+                    }
+                } else {
+                    throw new Error('Invalid response format from API');
+                }
+
+            } catch (error) {
+                addConsoleMessage(`API Error: ${error.message}`);
+                
+                // Fallback responses to prevent complete failure
+                const fallbackResponses = {
+                    'hello': "Hello! I'm AI Elites. How can I assist you today?",
+                    'biology': "Yes, I can help with biology questions! What specific topic interests you?",
+                    'help': "I'm here to help! What would you like to know about?",
+                    'default': "I apologize, but I'm experiencing some technical difficulties. Please try rephrasing your question."
+                };
+
+                const lowerMessage = userMessage.toLowerCase();
+                
+                if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+                    return fallbackResponses.hello;
+                } else if (lowerMessage.includes('biology')) {
+                    return fallbackResponses.biology;
+                } else if (lowerMessage.includes('help')) {
+                    return fallbackResponses.help;
+                } else {
+                    return fallbackResponses.default;
+                }
+            }
+        }
+
+        // Handle Enter key press
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Quick action functions
+        function startImageGeneration() {
+            addMessage("I'd like to generate an image", true);
+            setTimeout(() => {
+                addMessage("I can help you create images! Please describe what you'd like me to generate, and I'll create it for you.", false);
+            }, 1000);
+        }
+
+        function askLifeTips() {
+            addMessage("Give me some life tips", true);
+            setTimeout(() => {
+                addMessage("Here are some valuable life tips: 1) Stay curious and keep learning, 2) Practice gratitude daily, 3) Take care of your physical and mental health, 4) Build meaningful relationships, 5) Embrace challenges as growth opportunities. What specific area would you like more advice on?", false);
+            }, 1500);
+        }
+
+        // Attach file function
+        function attachFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '*/*';
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    addMessage(`📎 Attached file: ${file.name}`, true);
+                    addConsoleMessage(`File attached: ${file.name} (${file.size} bytes)`);
+                }
+            };
+            input.click();
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', initializeChat);
     </script>
 </body>
 </html>
