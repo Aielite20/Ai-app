@@ -3,577 +3,411 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Elites - Your Intelligent Assistant</title>
+    <title>AI ELITES</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+
+
     <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary-bg-start: #0c1a2e;
+            --primary-bg-end: #1a2942;
+            --secondary-bg: #1f2d47;
+            --accent-blue: #3b82f6;
+            --accent-blue-hover: #2563eb;
+            --text-primary: #e0e7ff;
+            --text-secondary: #a0aec0;
+            --input-bg: rgba(45, 55, 72, 0.5);
         }
 
-        /* Body and Overall Layout */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradient background */
-            height: 100vh; /* Full viewport height */
-            display: flex;
-            flex-direction: column;
-            color: white; /* Default text color */
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-bg-start), var(--primary-bg-end));
+            color: var(--text-primary);
+        }
+        
+        #main-container {
+             background-color: rgba(13, 26, 46, 0.6);
+             backdrop-filter: blur(10px);
         }
 
-        /* Header Section */
-        .header {
-            background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            backdrop-filter: blur(10px); /* Frosted glass effect */
-            z-index: 10; /* Ensure header is above other content */
+        #chat-area::-webkit-scrollbar, #history-content::-webkit-scrollbar {
+            width: 6px;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        #chat-area::-webkit-scrollbar-track, #history-content::-webkit-scrollbar-track {
+            background: transparent;
         }
 
-        .close-btn {
-            font-size: 24px;
-            cursor: pointer;
-            color: white;
-        }
-
-        .title {
-            font-size: 18px;
-            font-weight: 500;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .share-btn, .menu-btn {
-            font-size: 20px;
-            cursor: pointer;
-            color: white;
-        }
-
-        /* Main Content Area - Chat and Input */
-        .main-content {
-            flex: 1; /* Takes up remaining vertical space */
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        /* Top Bar within Main Content */
-        .top-bar {
-            background: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-            backdrop-filter: blur(10px); /* Frosted glass effect */
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 5; /* Above chat but below header */
-        }
-
-        .hamburger {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            cursor: pointer;
-        }
-
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: white;
-            border-radius: 2px;
-        }
-
-        .brand {
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        /* Chat Display Container */
-        .chat-container {
-            flex: 1; /* Takes up remaining space for chat messages */
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            overflow-y: auto; /* Enable scrolling for chat history */
-            position: relative;
-            padding-bottom: 80px; /* Space for input container */
-        }
-
-        /* Welcome Section */
-        .welcome-section {
-            text-align: center;
-            margin-top: 50px;
-            opacity: 0.7;
-        }
-
-        .welcome-text {
-            font-size: 28px;
-            font-weight: 300;
-            margin-bottom: 30px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-        }
-
-        .action-btn {
-            background: rgba(255, 255, 255, 0.15); /* Semi-transparent button */
-            border: none;
-            padding: 12px 24px;
-            border-radius: 25px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            backdrop-filter: blur(10px); /* Frosted glass button effect */
-            transition: all 0.3s ease; /* Smooth transitions for hover effects */
-        }
-
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px); /* Slight lift on hover */
-        }
-
-        /* Message Bubbles */
-        .message {
-            max-width: 80%; /* Limit width of message bubbles */
-            padding: 15px 20px;
-            border-radius: 20px;
-            margin-bottom: 10px;
-            word-wrap: break-word; /* Wrap long words */
-        }
-
-        .message.user {
-            background: rgba(255, 255, 255, 0.9); /* User message background */
-            color: #333; /* Dark text for user message */
-            align-self: flex-end; /* Align user messages to the right */
-            margin-left: auto; /* Push user messages to the right */
-        }
-
-        .message.ai {
-            background: rgba(255, 255, 255, 0.15); /* AI message background */
-            color: white; /* White text for AI message */
-            align-self: flex-start; /* Align AI messages to the left */
-            backdrop-filter: blur(10px); /* Frosted glass effect for AI bubble */
-        }
-
-        /* Input Container */
-        .input-container {
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
-            backdrop-filter: blur(10px); /* Frosted glass effect */
-            position: sticky; /* Stick to the bottom */
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 10;
-        }
-
-        .input-wrapper {
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.1); /* Semi-transparent input field */
-            border-radius: 25px;
-            padding: 12px 20px;
-            gap: 15px;
-        }
-
-        .attach-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .message-input {
-            flex: 1; /* Input field takes most of the space */
-            background: none;
-            border: none;
-            color: white;
-            font-size: 16px;
-            outline: none; /* Remove outline on focus */
-        }
-
-        .message-input::placeholder {
-            color: rgba(255, 255, 255, 0.6); /* Placeholder text color */
-        }
-
-        .send-btn {
-            background: white; /* White send button */
-            border: none;
-            color: #667eea; /* Button text color matching gradient */
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .send-btn:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: scale(1.05); /* Slight scale on hover */
-        }
-
-        /* Loading Indicator */
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: rgba(255, 255, 255, 0.7);
-            /* Spinner animation (example, actual spinner is handled by SVG in JS) */
-        }
-
-        /* Error Message Display */
-        .error-message {
-            background: rgba(255, 0, 0, 0.2); /* Red background for errors */
-            border: 1px solid rgba(255, 0, 0, 0.5);
-            color: #ff6b6b; /* Red text for errors */
-            padding: 15px;
+        #chat-area::-webkit-scrollbar-thumb, #history-content::-webkit-scrollbar-thumb {
+            background-color: var(--accent-blue);
             border-radius: 10px;
-            margin: 10px 0;
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .message {
-                max-width: 90%; /* Wider message bubbles on smaller screens */
-            }
-            
-            .quick-actions {
-                flex-direction: column; /* Stack quick actions vertically */
-                align-items: center;
-            }
-            
-            .action-btn {
-                width: 200px; /* Fixed width for quick action buttons */
+        #history-panel {
+            transition: transform 0.3s ease-in-out;
+            background-color: var(--primary-bg-start);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        #history-panel.hidden {
+            transform: translateX(-100%);
+        }
+        
+        .message-bubble {
+            animation: fade-in-up 0.4s ease forwards;
+            opacity: 0;
+            transform: translateY(15px);
+        }
+
+        @keyframes fade-in-up {
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
+
+        .dot-flashing {
+            position: relative;
+            width: 8px; height: 8px; border-radius: 5px; background-color: var(--accent-blue);
+            color: var(--accent-blue); animation: dot-flashing 1s infinite linear alternate;
+            animation-delay: .5s;
+        }
+
+        .dot-flashing::before, .dot-flashing::after {
+            content: ''; display: inline-block; position: absolute; top: 0;
+        }
+
+        .dot-flashing::before {
+            left: -12px; width: 8px; height: 8px; border-radius: 5px; background-color: var(--accent-blue);
+            color: var(--accent-blue); animation: dot-flashing 1s infinite alternate; animation-delay: 0s;
+        }
+
+        .dot-flashing::after {
+            left: 12px; width: 8px; height: 8px; border-radius: 5px; background-color: var(--accent-blue);
+            color: var(--accent-blue); animation: dot-flashing 1s infinite alternate; animation-delay: 1s;
+        }
+
+        @keyframes dot-flashing {
+            0% { background-color: var(--accent-blue); }
+            50%, 100% { background-color: rgba(59, 130, 246, 0.3); }
+        }
+
     </style>
 </head>
-<body>
-    <div class="header">
-        <div class="header-left">
-            <span class="close-btn">×</span>
-            <span class="title">AI Elites - Your Intelligent Assistant</span>
-        </div>
-        <div class="header-right">
-            <span class="share-btn">📤</span>
-            <span class="menu-btn">⋮</span>
-        </div>
-    </div>
+<body class="overflow-hidden">
 
-    <div class="main-content">
-        <div class="top-bar">
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+    <div id="main-container" class="flex h-screen w-full">
+        
+        <!-- History Panel (Sidebar) -->
+        <div id="history-panel" class="absolute inset-y-0 left-0 z-30 w-full sm:w-80 p-4 hidden">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold" style="font-family: 'Plus Jakarta Sans', sans-serif;">Chat History</h2>
+                <button id="close-history-btn" class="text-gray-400 hover:text-white text-2xl">&times;</button>
             </div>
-            <div class="brand">AI ELITES</div>
+            <div id="history-content" class="h-full overflow-y-auto pb-20">
+                <p class="text-sm text-gray-400">Your recent chats will appear here.</p>
+            </div>
         </div>
+        <div id="history-overlay" class="fixed inset-0 bg-black bg-opacity-60 z-20 hidden"></div>
 
-        <div class="chat-container" id="chatContainer">
-            <div class="welcome-section" id="welcomeSection">
-                <div class="welcome-text">Welcome to AI Elites</div>
-                <div class="quick-actions">
-                    <button class="action-btn" onclick="startImageGeneration()">🎨 Image Generation</button>
-                    <button class="action-btn" onclick="askLifeTips()">💡 Life Tips</button>
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col h-screen">
+            <!-- Header -->
+            <header class="border-b border-white/10 z-10">
+                <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                    <button id="menu-btn" class="text-2xl text-gray-300 hover:text-white transition-colors">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="text-xl font-bold tracking-wider" style="font-family: 'Plus Jakarta Sans', sans-serif;">AI ELITES</h1>
+                    <div class="w-8"></div> <!-- Spacer -->
                 </div>
-            </div>
-        </div>
+            </header>
 
-        <div class="input-container">
-            <div class="input-wrapper">
-                <button class="attach-btn" onclick="attachFile()">+</button>
-                <input type="text" class="message-input" id="messageInput" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
-                <button class="send-btn" onclick="sendMessage()">Send</button>
-            </div>
+            <!-- Chat Area -->
+            <main id="chat-area" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+                <!-- Chat messages are rendered dynamically -->
+            </main>
+
+            <!-- Input Area -->
+            <footer class="p-4 md:p-6">
+                <div class="max-w-4xl mx-auto">
+                    <!-- Image Preview Area -->
+                    <div id="image-preview-container" class="mb-2 hidden">
+                        <div class="relative inline-block bg-var(--secondary-bg) p-2 rounded-lg shadow-lg">
+                            <img id="image-preview" class="h-24 w-auto rounded">
+                            <button id="remove-image-btn" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full h-6 w-6 flex items-center justify-center text-xs shadow-md">&times;</button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center bg-var(--input-bg) p-2 rounded-full border border-white/10 shadow-lg">
+                        <label for="file-upload" class="cursor-pointer">
+                            <div class="h-10 w-10 flex items-center justify-center text-xl text-gray-400 hover:text-white transition-colors">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </label>
+                        <input id="file-upload" type="file" class="hidden" accept="image/*">
+
+                        <textarea id="chat-input" class="flex-1 bg-transparent text-white placeholder-gray-400 focus:outline-none resize-none px-4" placeholder="Send a message..." rows="1"></textarea>
+
+                        <button id="send-btn" class="bg-var(--accent-blue) text-white font-semibold px-6 py-2 rounded-full hover:bg-var(--accent-blue-hover) transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0">Send</button>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
 
-    <!-- The console-section has been removed from the UI as requested -->
-    <!-- You can still view console logs in your browser's developer tools (F12 or Inspect Element) -->
-    
-    <script>
-        // --- AI Configuration ---
-        // Your Gemini API Key has been securely placed here.
-        // Get your API key from Google AI Studio: https://ai.google.dev/
-        const GEMINI_API_KEY = "AIzaSyBIFd815--pDu-ChkJhwXY4WYa3nrYOFE8"; 
-        // FIX: Using gemini-2.0-flash with v1beta endpoint for wider compatibility and stability
-        const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'; 
-        const GEMINI_MODEL = 'gemini-2.0-flash'; 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, query, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- Chat State Management ---
-        let chatHistory = []; // Stores conversation for context
-        let isProcessing = false; // Prevents multiple requests at once
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "YOUR_API_KEY", authDomain: "YOUR_AUTH_DOMAIN", projectId: "YOUR_PROJECT_ID" };
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-        // --- DOM Elements ---
-        const chatContainer = document.getElementById('chatContainer');
-        const messageInput = document.getElementById('messageInput');
-        const welcomeSection = document.getElementById('welcomeSection');
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
 
-        // --- Initialization ---
-        function initializeChat() {
-            // No console messages printed to UI console, but internal logs are enabled.
-            console.log("AI Elites Chat System Initialized.");
-        }
+        let userId = null;
+        let attachedImageBase64 = null;
 
-        // --- Core Functions ---
-
-        /**
-         * Adds a message bubble to the chat interface.
-         * @param {string} content - The text content of the message.
-         * @param {boolean} isUser - True if the message is from the user, false for AI.
-         */
-        function addMessage(content, isUser = false) {
-            // Hide welcome section once chat starts
-            if (welcomeSection.style.display !== 'none') {
-                welcomeSection.style.display = 'none';
-            }
-
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
-            messageDiv.textContent = content;
-            
-            chatContainer.appendChild(messageDiv);
-            // Scroll to the bottom to show the latest message
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            
-            // Store message in chat history for AI context
-            chatHistory.push({
-                role: isUser ? 'user' : 'model',
-                parts: [{ text: content }]
-            });
-        }
-
-        /**
-         * Displays an error message temporarily in the chat.
-         * @param {string} message - The error message to display.
-         */
-        function showError(message) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.textContent = message;
-            chatContainer.appendChild(errorDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-            
-            // Auto-remove error after 5 seconds
-            setTimeout(() => {
-                if (errorDiv.parentNode) {
-                    chatContainer.removeChild(errorDiv);
+        const menuBtn = document.getElementById('menu-btn');
+        const historyPanel = document.getElementById('history-panel');
+        const historyOverlay = document.getElementById('history-overlay');
+        const closeHistoryBtn = document.getElementById('close-history-btn');
+        const chatArea = document.getElementById('chat-area');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const fileUpload = document.getElementById('file-upload');
+        const imagePreviewContainer = document.getElementById('image-preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const removeImageBtn = document.getElementById('remove-image-btn');
+        const historyContent = document.getElementById('history-content');
+        
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                userId = user.uid;
+                loadChatHistory();
+            } else {
+                 try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                } catch(error) {
+                    console.error("Authentication Error:", error);
                 }
-            }, 5000);
+            }
+        });
+
+        const toggleHistoryPanel = () => {
+            historyPanel.classList.toggle('hidden');
+            historyOverlay.classList.toggle('hidden');
+        };
+        
+        const autoResizeTextarea = () => {
+            chatInput.style.height = 'auto';
+            chatInput.style.height = (chatInput.scrollHeight) + 'px';
+        };
+
+        const renderWelcomeMessage = () => {
+            return `
+                <div id="welcome-message" class="text-center my-12 animate-fade-in">
+                     <h2 class="text-4xl font-bold" style="font-family: 'Plus Jakarta Sans', sans-serif;">Welcome to AI ELITES</h2>
+                     <p class="text-var(--text-secondary) mt-2">Your creative AI assistant.</p>
+                     <div class="flex justify-center gap-4 mt-8">
+                         <button class="prompt-suggestion-btn bg-var(--secondary-bg) hover:bg-var(--accent-blue) px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105">Generate an image of a cyber city</button>
+                         <button class="prompt-suggestion-btn bg-var(--secondary-bg) hover:bg-var(--accent-blue) px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105">Give me life tips</button>
+                     </div>
+                </div>
+            `;
         }
 
-        /**
-         * Sends the user's message to the AI and handles the response.
-         */
-        async function sendMessage() {
-            const message = messageInput.value.trim();
-            if (!message || isProcessing) {
-                // If message is empty or AI is busy, do nothing.
-                console.log("Attempted to send empty or during processing.");
-                return; 
+        const addMessageToUI = (sender, content) => {
+            const isUser = sender === 'user';
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'} message-bubble`;
+            
+            let messageContentHTML = '';
+            
+            if (typeof content === 'string') {
+                 if(content.startsWith('data:image/png;base64,')) {
+                    messageContentHTML = `<img src="${content}" class="max-w-md w-full rounded-lg shadow-lg" alt="Generated Image">`;
+                 } else {
+                    messageContentHTML = `<p>${content}</p>`;
+                 }
+            } else if (typeof content === 'object' && content.text) { 
+                 messageContentHTML = `<p>${content.text}</p>`;
+                 if(content.image) {
+                    messageContentHTML += `<img src="${content.image}" class="mt-3 max-w-xs w-full rounded-lg shadow-md" alt="User Upload">`;
+                 }
             }
 
-            // --- Input Validations ---
-            if (message.length > 1000) {
-                showError('Message is too long. Please keep it under 1000 characters.');
-                console.warn('User input too long.');
-                return;
-            }
-
-            if (GEMINI_API_KEY === 'YOUR_API_KEY_HERE' || !GEMINI_API_KEY) {
-                showError('AI API key is not configured. Please add your API key in the script section.');
-                console.error('ERROR: API key not configured.');
-                return;
-            }
-
-            // --- User Message Display & State Update ---
-            addMessage(message, true); // Display user's message
-            messageInput.value = ''; // Clear input field
-            isProcessing = true; // Set processing flag
-
-            // --- Loading Indicator ---
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'loading';
-            loadingDiv.innerHTML = `
-                <svg class="animate-spin h-5 w-5 text-white inline-block mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                AI is thinking...
+            messageDiv.innerHTML = `
+                <div class="max-w-lg lg:max-w-xl px-5 py-3 rounded-2xl shadow-md ${isUser ? 'bg-blue-600' : 'bg-var(--secondary-bg)'}">
+                   ${messageContentHTML}
+                </div>
             `;
-            chatContainer.appendChild(loadingDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to loading message
+            chatArea.appendChild(messageDiv);
+        };
+        
+        const addThinkingIndicator = () => {
+            const thinkingDiv = document.createElement('div');
+            thinkingDiv.id = 'thinking-indicator';
+            thinkingDiv.className = 'flex justify-start message-bubble';
+            thinkingDiv.innerHTML = `<div class="px-5 py-4 rounded-2xl bg-var(--secondary-bg) shadow-md"><div class="dot-flashing"></div></div>`;
+            chatArea.appendChild(thinkingDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        };
 
-            // --- API Call with Timeout ---
-            const timeoutPromise = new Promise((resolve, reject) => {
-                setTimeout(() => reject(new Error("Request timed out after 30 seconds.")), 30000);
+        const removeThinkingIndicator = () => {
+            const indicator = document.getElementById('thinking-indicator');
+            if(indicator) indicator.remove();
+        };
+
+        const handleSendMessage = async () => {
+            const text = chatInput.value.trim();
+            if (!text && !attachedImageBase64) return;
+            const userMessage = { text };
+            if (attachedImageBase64) userMessage.image = attachedImageBase64;
+            
+            const tempAttachedImage = attachedImageBase64; 
+            chatInput.value = '';
+            autoResizeTextarea();
+            removeImageBtn.click(); 
+
+            await addDoc(collection(db, `artifacts/${appId}/users/${userId}/chats`), {
+                sender: 'user', content: userMessage, timestamp: serverTimestamp()
             });
+            
+            addThinkingIndicator();
 
             try {
-                console.log(`Sending request to AI for: "${message.substring(0, 50)}..."`);
-                
-                // Use Promise.race to handle timeout
-                const apiResponsePromise = generateAIResponse(message);
-                const response = await Promise.race([apiResponsePromise, timeoutPromise]);
-                
-                // Remove loading indicator
-                if (loadingDiv.parentNode) {
-                    chatContainer.removeChild(loadingDiv);
-                }
-                
-                // Add AI response to chat
-                addMessage(response, false);
-                console.log(`✓ AI response generated successfully.`);
-                
+                const botResponse = await callGeminiApi(userMessage.text, tempAttachedImage);
+                removeThinkingIndicator();
+                await addDoc(collection(db, `artifacts/${appId}/users/${userId}/chats`), {
+                     sender: 'bot', content: botResponse, timestamp: serverTimestamp()
+                });
             } catch (error) {
-                // Remove loading indicator on error
-                if (loadingDiv.parentNode) {
-                    chatContainer.removeChild(loadingDiv);
+                console.error("API call failed:", error);
+                removeThinkingIndicator();
+                 await addDoc(collection(db, `artifacts/${appId}/users/${userId}/chats`), {
+                     sender: 'bot', content: "Sorry, an error occurred. Please try again.", timestamp: serverTimestamp()
+                });
+            }
+        };
+
+        const callGeminiApi = async (prompt, base64ImageData = null) => {
+            const apiKey = "";
+            const isImageGenerationRequest = prompt.toLowerCase().includes('generate an image') || prompt.toLowerCase().includes('create an image') || prompt.toLowerCase().includes('draw');
+
+            if (isImageGenerationRequest && !base64ImageData) {
+                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+                 const payload = { instances: [{ prompt }], parameters: { sampleCount: 1 } };
+                 const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                 const result = await response.json();
+                 if (result.predictions && result.predictions[0].bytesBase64Encoded) {
+                    return `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                 }
+                 return "Sorry, I couldn't generate that image.";
+            } else {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                let parts = [{ text: prompt }];
+                if (base64ImageData) parts.push({ inlineData: { mimeType: "image/png", data: base64ImageData.split(',')[1] } });
+                const payload = { contents: [{ role: "user", parts }] };
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const result = await response.json();
+                if (result.candidates && result.candidates[0].content.parts[0].text) {
+                    return result.candidates[0].content.parts[0].text;
+                }
+                return "I'm not sure how to respond to that.";
+            }
+        };
+
+        const loadChatHistory = () => {
+            if (!userId) return;
+            const q = query(collection(db, `artifacts/${appId}/users/${userId}/chats`));
+            onSnapshot(q, (querySnapshot) => {
+                const messages = [];
+                querySnapshot.forEach((doc) => messages.push({ id: doc.id, ...doc.data() }));
+                
+                // Sort all messages chronologically
+                messages.sort((a, b) => (a.timestamp?.toMillis() || 0) - (b.timestamp?.toMillis() || 0));
+                
+                chatArea.innerHTML = '';
+                
+                if(messages.length === 0) {
+                     chatArea.innerHTML = renderWelcomeMessage();
+                     document.querySelectorAll('.prompt-suggestion-btn').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            chatInput.value = btn.textContent;
+                            handleSendMessage();
+                        });
+                    });
+                } else {
+                    // Render all messages in their correct, chronological order
+                    messages.forEach(msg => addMessageToUI(msg.sender, msg.content));
                 }
                 
-                showError(`AI Error: ${error.message}`);
-                console.error(`✗ Error during AI response: ${error.message}`);
-            } finally {
-                isProcessing = false; // Reset processing flag
-                console.log('AI response process finished.');
-            }
-        }
-
-        /**
-         * Makes the actual API call to the Gemini model.
-         * @param {string} userMessage - The current message from the user.
-         * @returns {Promise<string>} The AI's generated text response.
-         */
-        async function generateAIResponse(userMessage) {
-            // Build conversation context from chatHistory (last N turns)
-            // Slicing to send only the last few turns to manage context window and cost.
-            // Using a max of 10 turns for context (5 user + 5 model responses)
-            const conversationContext = chatHistory.slice(-10);
-
-            // Add the current user message to the context for the API call
-            // The last message in chatHistory is already the user's current message,
-            // so we send chatHistory as is after slicing.
-
-            const requestBody = {
-                contents: conversationContext,
-                generationConfig: {
-                    temperature: 0.7, // Creativity level
-                    maxOutputTokens: 1000, // Max length of AI response
-                    topP: 0.8,
-                    topK: 40
-                },
-                safetySettings: [ // Safety filters
-                    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_MEDIUM_AND_ABOVE" },
-                    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_MEDIUM_AND_ABOVE" }
-                ]
-            };
-
-            const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody)
+                chatArea.scrollTop = chatArea.scrollHeight;
+                updateHistoryPanel(messages);
             });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error("API Error Response Data:", errorData);
-                let errorMessage = `API request failed: ${response.status} ${response.statusText}.`;
-                if (errorData && errorData.error && errorData.error.message) {
-                    errorMessage += ` Details: ${errorData.error.message}`;
-                }
-                throw new Error(errorMessage);
+        };
+        
+        const updateHistoryPanel = (messages) => {
+            historyContent.innerHTML = '';
+            if (messages.length === 0) {
+                 historyContent.innerHTML = `<p class="text-sm text-gray-400">Your recent chats will appear here.</p>`;
+                 return;
             }
+            const userMessages = messages.filter(m => m.sender === 'user' && m.content && (m.content.text || typeof m.content === 'string'));
+            userMessages.reverse().slice(0, 20).forEach(msg => {
+                 const historyItem = document.createElement('div');
+                 historyItem.className = 'p-3 rounded-lg hover:bg-var(--secondary-bg) cursor-pointer mb-2 transition-colors';
+                 let text = typeof msg.content === 'string' ? msg.content : msg.content.text;
+                 historyItem.textContent = text.length > 30 ? text.substring(0, 30) + '...' : text;
+                 historyItem.onclick = () => toggleHistoryPanel();
+                 historyContent.appendChild(historyItem);
+            });
+        }
 
-            const data = await response.json();
-            console.log("API Raw Response:", data);
-            
-            // Extract and validate AI response
-            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
-                const aiResponse = data.candidates[0].content.parts[0].text;
-                if (aiResponse && aiResponse.length > 0) {
-                    return aiResponse;
-                } else {
-                    throw new Error('AI generated an empty or invalid response.');
-                }
-            } else if (data.promptFeedback && data.promptFeedback.safetyRatings) {
-                 // Handle blocked content (safety filter)
-                 const blockedCategories = data.promptFeedback.safetyRatings
-                    .filter(rating => rating.blocked)
-                    .map(rating => rating.category.replace('HARM_CATEGORY_', '').replace(/_/g, ' '));
-                if (blockedCategories.length > 0) {
-                    return `I'm unable to respond to that request due to safety concerns related to: ${blockedCategories.join(', ')}. Please try a different approach.`;
-                }
-                throw new Error('AI response format is unexpected or was blocked by safety filters without clear message.');
-            } else {
-                throw new Error('Unexpected API response format or no candidates received.');
+        // --- Initial Event Listeners ---
+        menuBtn.addEventListener('click', toggleHistoryPanel);
+        closeHistoryBtn.addEventListener('click', toggleHistoryPanel);
+        historyOverlay.addEventListener('click', toggleHistoryPanel);
+        chatInput.addEventListener('input', autoResizeTextarea);
+        removeImageBtn.addEventListener('click', () => {
+            attachedImageBase64 = null;
+            imagePreviewContainer.classList.add('hidden');
+            fileUpload.value = '';
+        });
+
+        fileUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    attachedImageBase64 = e.target.result;
+                    imagePreview.src = attachedImageBase64;
+                    imagePreviewContainer.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
             }
-        }
-
-        // --- Event Handlers ---
-        // Handle Enter key press in the input field
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
+        });
+        
+        sendBtn.addEventListener('click', handleSendMessage);
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
             }
-        }
-
-        // --- Quick Action Buttons ---
-        function startImageGeneration() {
-            addMessage("I'd like to generate an image", true);
-            setTimeout(() => {
-                addMessage("I can help you create images! What kind of image are you looking for? Describe it to me, and I'll give you a detailed prompt idea.", false);
-            }, 1000);
-        }
-
-        function askLifeTips() {
-            addMessage("Give me some life tips", true);
-            setTimeout(() => {
-                addMessage("Here are some valuable life tips: \n1) Stay curious and keep learning. \n2) Practice gratitude daily. \n3) Take care of your physical and mental health. \n4) Build meaningful relationships. \n5) Embrace challenges as growth opportunities. \n\nWhat specific area would you like more advice on?", false);
-            }, 1500);
-        }
-
-        // --- Attach File Functionality ---
-        function attachFile() {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '*/*'; // Accept all file types
-            input.onchange = function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    addMessage(`📎 Attached file: ${file.name} (File attachment is for demonstration. This chat currently only processes text.)`, true);
-                    console.log(`File attached: ${file.name} (${file.size} bytes)`);
-                }
-            };
-            input.click(); // Programmatically click the hidden file input
-        }
-
-        // --- Initialize Chat on Page Load ---
-        window.addEventListener('load', initializeChat);
+        });
     </script>
 </body>
-</html>
+                        </html>
+    
